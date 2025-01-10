@@ -1,36 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Huydemo" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for(:title) || "Huydemo" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= yield :head %>
+  <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <style>
+    /* Custom styles for navigation menu */
+    nav {
+      background-color: #007BFF; /* Blue background */
+      color: white;
+      width: 100%; /* Full-width */
+      padding: 10px 0;
+      text-align: left; /* Align text to the left */
+    }
+    nav a, nav button {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: inline-block;
+      margin: 0;
+    }
+    nav a:hover, nav button:hover {
+      background-color: red; /* Red on hover */
+      color: white;
+    }
+    nav a, nav button {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    nav a:first-child, nav button:first-child {
+      margin-left: 0; /* Remove extra space for first item */
+    }
+    nav {
+      padding-left: 10px; /* Add padding to the left for alignment */
+    }
+    nav button {
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background-color: red; /* Hover effect for button */
+    }
 
-  <body>
+    /* Styles for images carousel */
+    .carousel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 120px;
+      overflow: hidden;
+      position: relative;
+      background-color: #f8f9fa;
+    }
+    .carousel img {
+      width: 500px;
+      height: 200px;
+      margin: 0 10px;
+      animation: slide 3s infinite;
+    }
+    @keyframes slide {
+      0% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-120px); /* Adjust to image width */
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
   <div class="notice"><%= notice %></div>
   <nav>
-  <%= link_to "Home", root_path %>
-  <%= button_to "Log out", session_path, method: :delete if authenticated? %>
-</nav>
+    <%= link_to "Home", root_path %>
+    <% if authenticated? %>
+      <%= button_to "Log out", session_path, method: :delete %>
+    <% else %>
+      <%= link_to "Log in", login_path %>
+    <% end %>
+  </nav>
 
-<main>
-  <%= yield %>
-</main>
-  </body>
+  <div class="carousel">
+    <img src="https://product.hstatic.net/1000339918/product/dior-sauvage-edt-10ml_ed840195ef4444a296888fbc3e5b46c9_master.jpg" alt="Dior Sauvage 1">
+    <img src="https://kyo.vn/wp-content/uploads/2022/08/nuoc-hoa-nam-dior-sauvage-eau-de-parfum-7.png" alt="Dior Sauvage 2">
+  </div>
+
+  <main>
+    <%= yield %>
+  </main>
+</body>
 </html>
